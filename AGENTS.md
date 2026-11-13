@@ -13,3 +13,9 @@ Goal: Implement reliable, auditable, geometrically correct Onshape assembly edit
 9. Keep all API endpoint details consistent with current official Onshape API documentation; verify before implementing any editing endpoint.
 
 Initial milestone: read-only inspection, then a proposed mate plan. Do not call a write endpoint until the user has specified what should be mated.
+
+The engineering drawing is authoritative. Inspect and render every page/view. Never invent dimensions or silently replace tolerances with nominal values. Every datum must retain provenance and be classified as `EXPLICIT`, `DERIVED`, `STANDARD-DEFINED`, `ASSUMED`, `UNRESOLVED`, or `ESTIMATED-NONAUTHORITATIVE`. Consequential uncertainty affecting geometry, fit, function, safety, compliance, or manufacturing blocks execution pending clarification.
+
+Never mutate Onshape without approval of the exact target and exact plan. Exercise writes on a disposable document first, stop on regeneration error, and independently measure the result. Report `PASS`, `FAIL`, and `NOT_VERIFIED` honestly; use `VERIFIED` only when all critical checks pass and no consequential assumptions remain.
+
+After software changes, run `python3 -m unittest discover -v`. Keep per-job evidence under `jobs/<job-id>/`. Do not commit drawing sources, page renders, logs, CAD exports, API response dumps, or secrets.

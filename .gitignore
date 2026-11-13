@@ -1,0 +1,24 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Never commit local API evidence, response dumps, drawings, exports, renders, or logs.
+jobs/**/responses/
+jobs/**/logs/
+jobs/**/*-render.png
+jobs/**/*.pdf
+jobs/**/*.step
+jobs/**/*.stp
+jobs/**/*.stl
+jobs/**/*.x_t
+*.log
