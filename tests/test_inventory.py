@@ -35,15 +35,15 @@ ASSEMBLY = {
                 "parameters": [],
             },
         ],
+        "occurrences": [
+            {
+                "path": ["part-one"],
+                "fixed": True,
+                "transform": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+            }
+        ],
     },
     "subAssemblies": [],
-    "occurrences": [
-        {
-            "path": ["part-one"],
-            "fixed": True,
-            "transform": [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-        }
-    ],
 }
 
 

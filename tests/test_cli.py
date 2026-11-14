@@ -18,7 +18,7 @@ class StubClient:
 
 class CliTests(unittest.TestCase):
     def setUp(self):
-        self.target = Target(DEFAULT_DOCUMENT_ID, DEFAULT_WORKSPACE_ID, DEFAULT_ELEMENT_ID, "v13")
+        self.target = Target(DEFAULT_DOCUMENT_ID, DEFAULT_WORKSPACE_ID, DEFAULT_ELEMENT_ID, "v16")
 
     def test_target_defaults_are_valid(self):
         with patch.dict(os.environ, {}, clear=True):

@@ -5,8 +5,8 @@
 - Scope: local GET-only API client, document/assembly inventory CLI, configuration, documentation, and tests
 - Onshape mutation authorized: no
 - Onshape mutation performed: no
-- Live credentials present at implementation time: no
-- Live element type and assembly inventory: `NOT_VERIFIED`
-- Local verification: `PASS` — 11 tests executed, 10 passed, 1 live read-only test skipped because fresh credentials were not configured
+- Live credentials present at verification time: yes (values remain local and Git-ignored)
+- Live element type and assembly inventory: `PASS` — target confirmed as an Assembly; 29 occurrences inspected with no write
+- Local verification: `PASS` — 11 tests executed, 10 passed, 1 live read-only test intentionally skipped because the opt-in flag was disabled
 
 Test results are recorded only as a concise status after execution; raw logs and API responses must remain uncommitted.

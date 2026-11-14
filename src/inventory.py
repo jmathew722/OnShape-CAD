@@ -29,21 +29,33 @@ def _assemblies(payload: dict[str, Any]) -> Iterable[tuple[str, dict[str, Any]]]
     root = payload.get("rootAssembly") or {}
     yield "root", root
     for index, assembly in enumerate(payload.get("subAssemblies") or []):
-        context = assembly.get("fullConfiguration") or assembly.get("elementId") or f"subassembly-{index + 1}"
+        element_id = assembly.get("elementId") or f"subassembly-{index + 1}"
+        configuration = assembly.get("fullConfiguration") or "default"
+        context = f"{element_id}:{configuration}"
         yield str(context), assembly
 
 
 def list_instances(payload: dict[str, Any]) -> list[dict[str, Any]]:
-    occurrences = payload.get("occurrences") or []
-    occurrence_by_leaf = {
-        occurrence.get("path", [None])[-1]: occurrence
-        for occurrence in occurrences
-        if occurrence.get("path")
-    }
+    root = payload.get("rootAssembly") or {}
+    # Current Onshape assembly responses place occurrences under rootAssembly.
+    # Retain the top-level fallback for older fixtures/responses.
+    occurrences = root.get("occurrences") or payload.get("occurrences") or []
     result: list[dict[str, Any]] = []
     for context, assembly in _assemblies(payload):
         for instance in assembly.get("instances") or []:
-            occurrence = occurrence_by_leaf.get(instance.get("id"), {}) if context == "root" else {}
+            instance_id = instance.get("id")
+            candidates = [
+                occurrence
+                for occurrence in occurrences
+                if occurrence.get("path") and occurrence["path"][-1] == instance_id
+            ]
+            if context == "root":
+                occurrence = next(
+                    (candidate for candidate in candidates if len(candidate.get("path") or []) == 1),
+                    {},
+                )
+            else:
+                occurrence = candidates[0] if len(candidates) == 1 else {}
             result.append(
                 {
                     "assembly": context,
@@ -122,7 +134,11 @@ def assembly_summary(payload: dict[str, Any]) -> dict[str, Any]:
             "instances": len(instances),
             "mates": len(mates),
             "mate_connectors": len(connectors),
-            "occurrences": len(payload.get("occurrences") or []),
+            "occurrences": len(
+                (payload.get("rootAssembly") or {}).get("occurrences")
+                or payload.get("occurrences")
+                or []
+            ),
             "subassemblies": len(payload.get("subAssemblies") or []),
         },
     }

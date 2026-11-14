@@ -45,7 +45,7 @@ class Target:
             document_id=os.environ.get("ONSHAPE_DOCUMENT_ID", DEFAULT_DOCUMENT_ID),
             workspace_id=os.environ.get("ONSHAPE_WORKSPACE_ID", DEFAULT_WORKSPACE_ID),
             element_id=os.environ.get("ONSHAPE_ELEMENT_ID", DEFAULT_ELEMENT_ID),
-            api_version=os.environ.get("ONSHAPE_API_VERSION", "v13"),
+            api_version=os.environ.get("ONSHAPE_API_VERSION", "v16"),
         )
         for label, value in (
             ("ONSHAPE_DOCUMENT_ID", target.document_id),
@@ -55,7 +55,7 @@ class Target:
             if not ID_RE.fullmatch(value):
                 raise ValueError(f"{label} must be a 24-character hexadecimal Onshape ID")
         if not re.fullmatch(r"v[0-9]+", target.api_version):
-            raise ValueError("ONSHAPE_API_VERSION must look like v13")
+            raise ValueError("ONSHAPE_API_VERSION must look like v16")
         return target
 
 
